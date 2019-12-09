@@ -9,3 +9,12 @@ spring.jpa:
         use-new-id-generator-mappings: false
         ddl-auto: create
     show-sql: true
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: when_authorized    
