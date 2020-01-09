@@ -7,7 +7,7 @@ spring.jpa:
         hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
     hibernate:
         use-new-id-generator-mappings: false
-        ddl-auto: create
+        ddl-auto: update
     show-sql: true
 management:
   endpoints:
