@@ -20,6 +20,4 @@ management:
       show-details: when_authorized    
       
       
-        logging:
-          pattern:
-            console=: "%black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] [%green(%X{X-B3-TraceId:-})] %yellow(%C{1.}): %msg%n%throwable"
+       
