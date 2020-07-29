@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <springProperty scope="context" name="logPattern" source="logging.pattern.console"
-                    defaultValue="%green(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] [%green(%X{X-B3-TraceId:-})] %yellow(%C{1.}): %msg%n%throwable"/>
+    <springProperty scope="context" name="logPattern" source="logging.pattern.console"/>
     <springProperty scope="context" name="applicationName" source="spring.application.name"
                     defaultValue="application"/>
     <springProperty scope="system" name="javaVersion" source="java.runtime.version"
