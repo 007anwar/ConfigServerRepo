@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="comdd" source="logging.level.com.dd"
+                    defaultValue="INFO"/>
+    <springProperty scope="context" name="rootLevel" source="logging.level.root"
+                    defaultValue="INFO"/>
+    <springProperty scope="context" name="logPattern" source="logging.pattern.console"
+                    defaultValue="%black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable"/>
+    <springProperty scope="context" name="fileName" source="spring.application.name"
+                    defaultValue="application"/>
+    <springProperty scope="context" name="gelfHost" source="gelf.host"
+                    defaultValue="gelfhost"/>
+    <springProperty scope="context" name="gelfPort" source="gelf.port"
+                    defaultValue="12201"/>
+    <springProperty scope="system" name="javaVersion" source="java.runtime.version"
+                    defaultValue="javaVersion"/>
+    <springProperty scope="context" name="env" source="spring.profiles.active"
+                    defaultValue="environment"/>      
+     <springProperty scope="context" name="applicationVersion" source="version"
+                    defaultValue="version"/> 
+    <springProperty scope="context" name="rollingFilePattern" source="logging.pattern.rollingFilePattern"
+                    defaultValue="%d %p %C{1.} [%t] %m%n"/>
+
+    <property name="LOGS" value="./logs" />
+
+    <appender name="Console"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                ${logPattern}
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="RollingFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender"  type="Console">
+        <file>${LOGS}/${fileName}.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${rollingFilePattern}</Pattern>
+        </encoder>
+
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOGS}/archived/${fileName}-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+    <appender name="GELF" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender"  type="Console">
+        <graylogHost>${gelfHost}</graylogHost>
+        <graylogPort>${gelfPort}</graylogPort>
+        <extractStackTrace>true</extractStackTrace>
+        <mdcFields>X-B3-TraceId</mdcFields>
+        <additionalFields>application=${fileName},environment=${env},version=${applicationVersion},jvm=${javaVersion}</additionalFields>
+    </appender>
+
+    <!-- LOG everything at INFO level -->
+    <root level="${rootLevel}">
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="Console" />
+        <appender-ref ref="GELF" />
+    </root>
+
+    <!-- LOG "com.dd*" at INFO level -->
+    <logger name= "com.dd" level="${comdd}">
+    </logger>
+
+</configuration>
