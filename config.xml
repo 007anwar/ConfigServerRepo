@@ -47,12 +47,4 @@
         <mdcFields>X-B3-TraceId</mdcFields>
         <additionalFields>application=${applicationName},environment=${env},version=${applicationVersion},jvm=${javaVersion}</additionalFields>
     </appender>
-    <appender>
-    <logger name="com.dd" level="DEBUG"/>
-    <root level="INFO">
-        <appender-ref ref="Console"/>
-        <appender-ref ref="Gelf"/>
-        <appender-ref ref="RollingFile"/>
-    </root>
-    </appender>
 </configuration>
