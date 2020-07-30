@@ -13,7 +13,7 @@
     <springProperty scope="context" name="rollingFilePattern" source="logging.pattern.rollingFilePattern"
                     defaultValue="%d %p %C{1.} [%t] %m%n"/>
 
-    <appender type="Console"
+    <appender name="Console"
               class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
@@ -22,7 +22,7 @@
         </layout>
     </appender>
 
-    <appender type="RollingFile"
+    <appender name="RollingFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>./logs/${applicationName}.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -40,11 +40,18 @@
         </rollingPolicy>
     </appender>
 
-    <appender type="Gelf" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
+    <appender name="Gelf" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
         <graylogHost>gelf-host</graylogHost>
         <graylogPort>12201</graylogPort>
         <extractStackTrace>true</extractStackTrace>
         <mdcFields>X-B3-TraceId</mdcFields>
         <additionalFields>application=${applicationName},environment=${env},version=${applicationVersion},jvm=${javaVersion}</additionalFields>
     </appender>
+
+    <logger name="com.dd" level="DEBUG"/>
+    <root level="INFO">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="Gelf"/>
+        <appender-ref ref="RollingFile"/>
+    </root>
 </configuration>
