@@ -1,56 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-    <springProperty scope="context" name="logPattern" source="logging.pattern.console"/>
-    <springProperty scope="context" name="applicationName" source="spring.application.name"
-                    defaultValue="application"/>
-    <springProperty scope="system" name="javaVersion" source="java.runtime.version"
-                    defaultValue="javaVersion"/>
-    <springProperty scope="context" name="env" source="spring.profiles.active"
-                    defaultValue="environment"/>
-    <springProperty scope="context" name="applicationVersion" source="version"
-                    defaultValue="version"/>
-    <springProperty scope="context" name="rollingFilePattern" source="logging.pattern.rollingFilePattern"
-                    defaultValue="%d %p %C{1.} [%t] %m%n"/>
-
-    <appender name="Console"
-              class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                ${logPattern}
-            </Pattern>
-        </layout>
-    </appender>
-
-    <appender name="RollingFile"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>./logs/${applicationName}.log</file>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>${rollingFilePattern}</Pattern>
-        </encoder>
-
-        <rollingPolicy
-                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- rollover daily and when the file reaches 10 MegaBytes -->
-            <fileNamePattern>./logs/archived/${applicationName}-%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-    </appender>
-
-    <appender name="Gelf" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
-        <graylogHost>gelf-host</graylogHost>
-        <graylogPort>12201</graylogPort>
-        <extractStackTrace>true</extractStackTrace>
-        <mdcFields>X-B3-TraceId</mdcFields>
-        <additionalFields>application=${applicationName},environment=${env},version=${applicationVersion},jvm=${javaVersion}</additionalFields>
-    </appender>
-
-    <logger name="com.dd" level="DEBUG"/>
-    <root level="INFO">
-        <appender-ref ref="Console"/>
-        <appender-ref ref="Gelf"/>
-        <appender-ref ref="RollingFile"/>
-    </root>
-</configuration>
+spring.datasource:
+    url: jdbc:mysql://localhost:3306/dbtest
+    username: apuser
+    password: everywhere_duck_happened_oh_no
+spring.jpa:
+    properties:
+        hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+        use-new-id-generator-mappings: false
+        ddl-auto: update
+    show-sql: true
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: when_authorized  
