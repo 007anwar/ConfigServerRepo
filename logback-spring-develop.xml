@@ -15,7 +15,6 @@
         <graylogPort>12201</graylogPort>
         <extractStackTrace>true</extractStackTrace>
         <mdcFields>X-B3-TraceId</mdcFields>
-        <additionalFields>application=${applicationName},environment=${env},version=${applicationVersion},jvm=${javaVersion}</additionalFields>
   <root level="info">
       <appender-ref ref="Console"/>
       <appender-ref ref="Gelf"/>
