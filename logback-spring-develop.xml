@@ -38,6 +38,7 @@
     </appender>
     <logger name="com.dd" level="DEBUG"/>
     <root level="INFO">
+         <appender-ref ref="Gelf"/>
         <appender-ref ref="Console"/>
         <appender-ref ref="RollingFile"/>
     </root>
