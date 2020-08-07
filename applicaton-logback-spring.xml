@@ -40,14 +40,6 @@
         </rollingPolicy>
     </appender>
 
-    <appender name="Gelf" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
-        <graylogHost>gelf-host</graylogHost>
-        <graylogPort>12201</graylogPort>
-        <extractStackTrace>true</extractStackTrace>
-        <mdcFields>X-B3-TraceId</mdcFields>
-        <additionalFields>application=${applicationName},environment=${env},version=${applicationVersion},jvm=${javaVersion}</additionalFields>
-    </appender>
-
     <logger name="com.dd" level="DEBUG"/>
     <root level="INFO">
         <appender-ref ref="Console"/>
