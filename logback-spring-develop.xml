@@ -13,7 +13,6 @@
 
   <root level="info">
       <appender-ref ref="Console"/>
-    <appender-ref ref="STDOUT"/>
   </root>
  
 </configuration>
