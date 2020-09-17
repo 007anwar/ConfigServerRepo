@@ -1,7 +1,6 @@
 spring.datasource:
     url: jdbc:mysql://localhost:3306/dbtest
     username: apuser
-    password: everywhere_duck_happened_oh_no
 spring.jpa:
     properties:
         hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
